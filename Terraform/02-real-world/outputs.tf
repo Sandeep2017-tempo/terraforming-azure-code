@@ -10,8 +10,3 @@ output "private_key" {
 output "instrumentation_key" {
   value = "${azurerm_application_insights.demo.instrumentation_key}"
 }
-
-output "password" {
-  value     = "${random_string.password.result}"
-  sensitive = true
-}

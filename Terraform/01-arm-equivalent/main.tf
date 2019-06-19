@@ -1,22 +1,29 @@
+# Optional, but tells Terraform to use the Azure Resource Manager provider
 provider "azurerm" {}
 
-variable "location" {}
+# Variables are strings by default
+variable "location" {
+  default = "West Europe"
+}
 variable "storageAccountName" {}
 variable "accountType" {}
 variable "kind" {}
 variable "accessTier" {}
 variable "supportHttpsTrafficOnly" {}
 
+# Terraform can create the resource group at the same time as the resources 
 resource "azurerm_resource_group" "rg" {
-  // This is not done by ARM template, but by the deploy script
-  name     = "terraform-storage-rg"
+  name     = "ndc-terraform-storage-rg"
   location = "${var.location}"
 
-  tags {
+  tags = {
+    tool        = "Terraform"
     environment = "test"
+    demo        = 2
   }
 }
 
+# This defines a storage account and gives it the alias "sa"
 resource "azurerm_storage_account" "sa" {
   resource_group_name       = "${azurerm_resource_group.rg.name}"
   name                      = "${var.storageAccountName}"
@@ -27,11 +34,14 @@ resource "azurerm_storage_account" "sa" {
   access_tier               = "${var.accessTier}"
   enable_https_traffic_only = "${var.supportHttpsTrafficOnly}"
 
-  tags {
+  tags = {
+    tool        = "Terraform"
     environment = "test"
+    demo        = 2
   }
 }
 
+# This output is marked as sensitive
 output "storageAccountKey" {
   value     = "${azurerm_storage_account.sa.primary_access_key}"
   sensitive = true

@@ -1,8 +1,6 @@
-location = "westeurope"
+storageAccountName = "ensotfstorage20190619"
 
-storageAccountName = "ensotfstorage20181108"
-
-accountType = "GRS"
+accountType = "LRS"
 
 kind = "StorageV2"
 

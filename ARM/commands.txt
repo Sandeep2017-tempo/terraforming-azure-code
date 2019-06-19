@@ -1,0 +1,9 @@
+az group create --name ndc-arm-storage-rg --location westeurope
+
+az group deployment create \
+  --resource-group ndc-arm-storage-rg \
+  --template-file template.json \
+  --parameters @params.json
+    
+
+az group delete -n ndc-arm-storage-rg

@@ -1,9 +1,8 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "West Europe"
     },
     "storageAccountName": {
       "type": "string"
@@ -27,21 +26,23 @@
   },
   "resources": [
     {
-      "name": "[parameters('storageAccountName')]",
       "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('storageAccountName')]",
       "apiVersion": "2018-07-01",
       "location": "[parameters('location')]",
       "properties": {
         "accessTier": "[parameters('accessTier')]",
         "supportsHttpsTrafficOnly": "[parameters('supportsHttpsTrafficOnly')]"
       },
-      "dependsOn": [],
       "sku": {
         "name": "[parameters('accountType')]"
       },
       "kind": "[parameters('kind')]",
+      "dependsOn": [],
       "tags": {
-        "environment": "test"
+        "tool": "ARM",
+        "env": "test",
+        "demo": 1
       }
     }
   ],
@@ -50,5 +51,7 @@
       "type": "string",
       "value": "[listKeys(variables('resourceId'), variables('apiVersion')).keys[0].value]"
     }
-  }
+  },
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0"
 }
